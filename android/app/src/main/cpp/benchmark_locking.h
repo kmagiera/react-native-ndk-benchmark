@@ -33,11 +33,11 @@ static void AtomicLockTestAndSet(benchmark::State& state) {
 BENCHMARK(AtomicLockTestAndSet);
 
 
-static void SemaphoreAcquire(benchmark::State& state) {
-    std::counting_semaphore<1000000> semaphore;
-    for (auto _ : state) {
-        semaphore.acquire();
-    }
-}
-BENCHMARK(SemaphoreAcquire);
+//static void SemaphoreAcquire(benchmark::State& state) {
+//    std::counting_semaphore<1000000> semaphore;
+//    for (auto _ : state) {
+//        semaphore.acquire();
+//    }
+//}
+//BENCHMARK(SemaphoreAcquire);
 

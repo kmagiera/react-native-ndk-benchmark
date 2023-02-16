@@ -93,6 +93,10 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    buildFeatures {
+        prefab true
+    }
+
     namespace "com.androidbenchmark"
     defaultConfig {
         applicationId "com.androidbenchmark"
@@ -100,6 +104,12 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
     }
 
     splits {
