@@ -200,6 +200,21 @@ GetNativeState(benchmark::State &state)
 }
 BENCHMARK(GetNativeState);
 
+static void
+GetHostObject(benchmark::State &state)
+{
+  auto hermesRuntime = facebook::hermes::makeHermesRuntime();
+  jsi::Runtime &rt = *hermesRuntime;
+
+  auto hostObject = jsi::Object::createFromHostObject(rt, std::make_shared<FooHostObject>());
+
+  for (auto _ : state)
+  {
+    hostObject.getHostObject<FooHostObject>(rt);
+  }
+}
+BENCHMARK(GetNativeState);
+
 static void EvaluatePreparedCode(benchmark::State &state)
 {
   auto hermesRuntime = facebook::hermes::makeHermesRuntime();

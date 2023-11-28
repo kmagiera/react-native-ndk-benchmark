@@ -1,79 +1,51 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+This project is a React Native app that performs benchmarks oriented at different JSI-related tasks.
 
-# Getting Started
+Currently it only supports Android and uses [google benchmark](https://github.com/google/benchmark) library to run a series of tests written [here](blob/main/android/app/src/main/cpp/benchmark_jsi.h).
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+In order to run benchmarks on your own you need to build and install the app. Preferably run benchmarks on a real device and not emulator to get a better sense of the real-life values of the things under test.
 
-## Step 1: Start the Metro Server
-
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
-
-To start Metro, run the following command from the _root_ of your React Native project:
+## Step 1: Install project dependencies
 
 ```bash
-# using npm
-npm start
-
-# OR using Yarn
 yarn start
 ```
 
-## Step 2: Start your Application
-
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
+## Step 2: Build Android's app for release
 
 ```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
+cd android && ./gradlew assembleRelease
 ```
 
-### For iOS
+## Step 3: Install on Android device
+
+Connect your android phone, and install using ADB:
 
 ```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+adb install ./app/build/outputs/apk/release/app-release.apk
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+## Step 4: Launch the app and see results
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+Launch AndroidBenchmark app installed in the previous step on your phone.
+Once the app opens, the benchmark results will be writted to ADB logcat.
+Use the following command to filter the results:
 
-## Step 3: Modifying your App
+```bash
+adb logcat | grep BENCHMARK
+```
 
-Now that you have successfully run the app, let's modify it.
+The output will looks something like that (the below results are from Samsung Galaxy J3 device):
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+```
+-----------------------------------------------------------------------------
+Benchmark                                   Time             CPU   Iterations
+-----------------------------------------------------------------------------
+InstantiatingHermesRuntime           19971121 ns     19572338 ns           35
+CallHostFunctionFromJS1000Times        908896 ns       903850 ns          773
+CallJSFunctionWithoutJSI1000Times      773631 ns       763131 ns          914
+ExecuteJSIFunction1000Times            837376 ns       832555 ns          827
+AccessHostObjectAttribute1000Times    1166008 ns      1150051 ns          608
+AccessNativeStateData1000Times        1406017 ns      1393046 ns          501
+GetNativeState                            268 ns          268 ns      2614592
+EvaluatePreparedCode                    12253 ns        12253 ns        92156
+```
