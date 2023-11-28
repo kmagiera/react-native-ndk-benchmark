@@ -213,7 +213,7 @@ GetHostObject(benchmark::State &state)
     hostObject.getHostObject<FooHostObject>(rt);
   }
 }
-BENCHMARK(GetNativeState);
+BENCHMARK(GetHostObject);
 
 static void EvaluatePreparedCode(benchmark::State &state)
 {
