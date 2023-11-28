@@ -40,12 +40,13 @@ The output will looks something like that (the below results are from Samsung Ga
 -----------------------------------------------------------------------------
 Benchmark                                   Time             CPU   Iterations
 -----------------------------------------------------------------------------
-InstantiatingHermesRuntime           19971121 ns     19572338 ns           35
-CallHostFunctionFromJS1000Times        908896 ns       903850 ns          773
-CallJSFunctionWithoutJSI1000Times      773631 ns       763131 ns          914
-ExecuteJSIFunction1000Times            837376 ns       832555 ns          827
-AccessHostObjectAttribute1000Times    1166008 ns      1150051 ns          608
-AccessNativeStateData1000Times        1406017 ns      1393046 ns          501
-GetNativeState                            268 ns          268 ns      2614592
-EvaluatePreparedCode                    12253 ns        12253 ns        92156
+InstantiatingHermesRuntime           21586660 ns     20671476 ns           35
+CallHostFunctionFromJS1000Times        945949 ns       916524 ns          765
+CallJSFunctionWithoutJSI1000Times      821180 ns       767397 ns          904
+ExecuteJSIFunction1000Times            860390 ns       832706 ns          819
+AccessHostObjectAttribute1000Times    1165616 ns      1148329 ns          609
+AccessNativeStateData1000Times        1435801 ns      1390908 ns          495
+GetNativeState                            279 ns          269 ns      2608473
+GetHostObject                            69.3 ns         67.6 ns     10342067
+EvaluatePreparedCode                    13979 ns        13159 ns        90922
 ```
