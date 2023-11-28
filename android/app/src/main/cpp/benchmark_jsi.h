@@ -184,6 +184,22 @@ return function loop() {
 }
 BENCHMARK(AccessNativeStateData1000Times);
 
+static void
+GetNativeState(benchmark::State &state)
+{
+  auto hermesRuntime = facebook::hermes::makeHermesRuntime();
+  jsi::Runtime &rt = *hermesRuntime;
+
+  auto objectWithNativeState = jsi::Object(rt);
+  objectWithNativeState.setNativeState(rt, std::make_shared<FooNativeState>());
+
+  for (auto _ : state)
+  {
+    objectWithNativeState.getNativeState<FooNativeState>(rt);
+  }
+}
+BENCHMARK(GetNativeState);
+
 static void EvaluatePreparedCode(benchmark::State &state)
 {
   auto hermesRuntime = facebook::hermes::makeHermesRuntime();
